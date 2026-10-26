@@ -1,0 +1,126 @@
+
+require("dotenv").config();
+
+const {
+  Client,
+  GatewayIntentBits,
+  EmbedBuilder,
+  Events
+} = require("discord.js");
+
+const token = process.env.DISCORD_TOKEN;
+const welcomeChannelId = process.env.WELCOME_CHANNEL_ID;
+
+if (!token || !welcomeChannelId) {
+  console.error(
+    "Missing DISCORD_TOKEN or WELCOME_CHANNEL_ID in environment variables."
+  );
+  process.exit(1);
+}
+
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers
+  ]
+});
+
+function getEmbedColor() {
+  const color = process.env.EMBED_COLOR || "#E879C5";
+
+  if (!/^#[0-9A-Fa-f]{6}$/.test(color)) {
+    return 0xE879C5;
+  }
+
+  return parseInt(color.slice(1), 16);
+}
+
+client.once(Events.ClientReady, (readyClient) => {
+  console.log(`PPG Welcome Bot online as ${readyClient.user.tag}`);
+  console.log(`Watching welcome channel: ${welcomeChannelId}`);
+});
+
+client.on(Events.GuildMemberAdd, async (member) => {
+  try {
+    const channel = await member.guild.channels.fetch(
+      welcomeChannelId
+    );
+
+    if (!channel || !channel.isTextBased() ||
+        !channel.isSendable()) {
+      console.error("Welcome channel is missing or cannot receive messages.");
+      return;
+    }
+
+    const serverName =
+      process.env.SERVER_NAME || member.guild.name;
+
+    const welcomeMessage =
+      process.env.WELCOME_MESSAGE ||
+      "We're so happy to have you here! Please check out the server rules and enjoy your stay.";
+
+    const memberCount = member.guild.memberCount;
+
+    const embed = new EmbedBuilder()
+      .setColor(getEmbedColor())
+      .setAuthor({
+        name: `Welcome to ${serverName}!`,
+        iconURL: member.guild.iconURL() || undefined
+      })
+      .setTitle(`Welcome, ${member.user.username}!`)
+      .setDescription(
+        `Hey ${member}, welcome to **${serverName}**! 🎉\n\n` +
+        `${welcomeMessage}`
+      )
+      .setThumbnail(
+        member.user.displayAvatarURL({ size: 256 })
+      )
+      .addFields({
+        name: "👥 Member Count",
+        value: `You're member **#${memberCount}**!`,
+        inline: true
+      })
+      .setFooter({
+        text: `${serverName} • We're glad you're here!`
+      })
+      .setTimestamp();
+
+    if (process.env.BANNER_URL) {
+      try {
+        new URL(process.env.BANNER_URL);
+
+        if (/^https?:$/.test(new URL(process.env.BANNER_URL).protocol)) {
+          embed.setImage(process.env.BANNER_URL);
+        }
+      } catch {
+        console.warn("BANNER_URL is invalid; skipping banner.");
+      }
+    }
+
+    await channel.send({
+      embeds: [embed],
+      allowedMentions: {
+        users: [member.id]
+      }
+    });
+
+    console.log(
+      `Welcomed ${member.user.tag} in ${member.guild.name}. Members: ${memberCount}`
+    );
+  } catch (error) {
+    console.error("Could not send welcome message:", error);
+  }
+});
+
+client.on(Events.Error, (error) => {
+  console.error("Discord client error:", error);
+});
+
+process.on("unhandledRejection", (error) => {
+  console.error("Unhandled promise rejection:", error);
+});
+
+client.login(token).catch((error) => {
+  console.error("Failed to log in to Discord:", error);
+  process.exit(1);
+});
