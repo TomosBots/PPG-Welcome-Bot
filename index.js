@@ -266,6 +266,33 @@ const ROASTS = {
     "You're the reason shampoo has instructions.",
     "You have the charisma of a waiting-room magazine.",
     "You'd somehow lose a game of rock-paper-scissors to a wall."
+  ], 
+    adult: [
+    "You're proof that pulling out isn't just for smokers.",
+    "Your sex life has more cancellations than a budget airline.",
+    "Your idea of foreplay is asking for the Wi-Fi password.",
+    "You've got the sexual charisma of a damp flannel.",
+    "Your bedroom performance deserves a refund and an apology.",
+    "You're so bad at flirting that even spam emails have better conversion rates.",
+    "Your love life is like a fire alarm: loud, stressful, and nobody wants it going off.",
+    "You couldn't get lucky if Cupid delivered the arrow personally.",
+    "Your game in the bedroom is so weak the tutorial uninstalled itself.",
+    "Your flirting makes people consider a vow of silence.",
+    "You're the type to say 'I'm almost there' before you've even started.",
+    "Your romantic prospects have the same status as a deleted account.",
+    "Your body count isn't the issue. It's the lack of witnesses to your personality.",
+    "You're a walking advertisement for staying single.",
+    "Even your imaginary partner needs a break.",
+    "Your idea of a threesome is you, your phone, and a takeaway.",
+    "You've got more red flags than a brothel during a fire drill.",
+    "Your love life is so dead even the funeral director has moved on.",
+    "You're the reason people read the terms and conditions before dating.",
+    "Your flirting technique belongs in a museum labelled 'What Not To Do'.",
+    "You bring absolutely nothing to the bedroom except disappointment.",
+    "Your ex didn't leave you. They escaped a long-term subscription.",
+    "You're about as seductive as a parking fine.",
+    "Your romantic aura screams 'terms and conditions apply'.",
+    "If bad decisions were foreplay, you'd be irresistible."
   ]
 };
 
