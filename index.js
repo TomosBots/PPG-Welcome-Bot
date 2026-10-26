@@ -560,22 +560,22 @@ client.on(Events.InteractionCreate, async (interaction) => {
     });
   }
 
-    if (
-      ![
-  "roast",
-  "roastme",
-  "darkroast",
-  "adultroast",
-  "exroast",
-  "drunkroast",
-  "humiliateroast",
-  "nuclearroast",
-  "roastoptout",
-  "roasthelp"
-].includes(commandName)) 
-      ) {
-      return;
-    }
+      if (
+    ![
+      "roast",
+      "roastme",
+      "darkroast",
+      "adultroast",
+      "exroast",
+      "drunkroast",
+      "humiliateroast",
+      "nuclearroast",
+      "roastoptout",
+      "roasthelp"
+    ].includes(commandName)
+  ) {
+    return;
+  }
 
   if (commandName === "roasthelp") {
     return interaction.reply({
