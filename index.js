@@ -560,7 +560,8 @@ client.on(Events.InteractionCreate, async (interaction) => {
     });
   }
 
-    if (![
+    if (
+      ![
   "roast",
   "roastme",
   "darkroast",
@@ -571,7 +572,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
   "nuclearroast",
   "roastoptout",
   "roasthelp"
-].includes(commandName)) return;
+].includes(commandName)) 
+      ) {
+      return;
     }
 
   if (commandName === "roasthelp") {
