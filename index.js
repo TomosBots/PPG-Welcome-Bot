@@ -110,6 +110,36 @@ embed.setImage("attachment://ppg-welcome.png");
   }
 });
 
+
+try {
+  await member.send({
+    embeds: [
+      new EmbedBuilder()
+        .setColor(getEmbedColor())
+        .setTitle("🦋 Welcome to Sunday City: PPG Parties! 🥂")
+        .setDescription(
+          `Hey ${member.user.username}! 💖\n\n` +
+          `We're so happy you've joined our family! 🥰\n\n` +
+          `📜 **Server Rules**\n` +
+          `Please read the rules in the server before joining parties.\n\n` +
+          `❤️ **Meet The Team**\n` +
+          `Get to know our lovely staff!\n\n` +
+          `🎉 **Party Guide**\n` +
+          `Learn how our parties work.\n\n` +
+          `🥂 **Party Schedule**\n` +
+          `Keep an eye out for upcoming events!\n\n` +
+          `🤖 **NEW PPG SIGNUP BOT!**\n` +
+          `Head to the signup channel, select your event, and enter your IGN and game tag. Follow the bot's instructions to sign up! 🥳\n\n` +
+          `💕 Have fun, make friends and enjoy the parties! Welcome to PPG! 🦋`
+        )
+        .setFooter({ text: "Sunday City • PPG Parties" })
+        .setTimestamp()
+    ]
+  });
+} catch (error) {
+  console.log(`Could not DM ${member.user.tag}. Their DMs may be closed.`);
+}
+    
     console.log(
       `Welcomed ${member.user.tag} in ${member.guild.name}. Members: ${memberCount}`
     );
