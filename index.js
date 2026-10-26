@@ -70,7 +70,8 @@ client.on(Events.GuildMemberAdd, async (member) => {
       })
 .setTitle(`Welcome, ${member.user.username}!`)
 .setDescription(
-  `🦋 **WELCOME TO ${serverName}!** 🥂\n\n` +
+  `🦋 Welcome ${member}! 💖\n\n` +
+  `Welcome to **${serverName}**! 🥂\n\n` +
   `Your home for private parties, sticker trades & good vibes! 💖\n\n` +
   `📜 <#1496243868717420664> ・Server Rules\n` +
   `❤️ <#1496243796793491617> ・Meet The Team\n` +
