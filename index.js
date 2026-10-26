@@ -5,6 +5,7 @@ const {
   Client,
   GatewayIntentBits,
   EmbedBuilder,
+  AttachmentBuilder,
   Events
 } = require("discord.js");
 
@@ -85,24 +86,20 @@ client.on(Events.GuildMemberAdd, async (member) => {
       })
       .setTimestamp();
 
-    if (process.env.BANNER_URL) {
-      try {
-        new URL(process.env.BANNER_URL);
+    const banner = new AttachmentBuilder(
+  require("node:path").join(__dirname, "ppg-welcome.png"),
+  { name: "ppg-welcome.png" }
+);
 
-        if (/^https?:$/.test(new URL(process.env.BANNER_URL).protocol)) {
-          embed.setImage(process.env.BANNER_URL);
-        }
-      } catch {
-        console.warn("BANNER_URL is invalid; skipping banner.");
-      }
-    }
+embed.setImage("attachment://ppg-welcome.png");
 
     await channel.send({
-      embeds: [embed],
-      allowedMentions: {
-        users: [member.id]
-      }
-    });
+  embeds: [embed],
+  files: [banner],
+  allowedMentions: {
+    users: [member.id]
+  }
+});
 
     console.log(
       `Welcomed ${member.user.tag} in ${member.guild.name}. Members: ${memberCount}`
