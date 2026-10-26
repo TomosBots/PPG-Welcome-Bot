@@ -382,7 +382,34 @@ const ROASTS = {
     "You're the reason the phrase 'lower your standards' needs a warning label.",
     "Your romantic game is so weak that Cupid has filed for early retirement.",
     "You're not a heartbreaker; you're a mood killer with Wi-Fi.",
-    "Your dating history needs a narrator saying, 'In hindsight, this was a terrible idea.'"
+        "Your dating history needs a narrator saying, 'In hindsight, this was a terrible idea.'"
+  ],
+
+  ex: [
+    "Your ex didn't dodge a bullet; they escaped an entire firing squad.",
+    "Your relationships end faster than a free trial.",
+    "Your red flags need their own national flag.",
+    "Your ex upgraded so hard even their phone got better reception.",
+    "Dating you should qualify for compensation.",
+    "Your love life is a museum of terrible decisions."
+  ],
+
+  drunk: [
+    "You're the reason pubs put water on the menu.",
+    "Your drunk texts need a solicitor present.",
+    "You make questionable decisions look like an Olympic sport.",
+    "Your liver has started writing its resignation letter.",
+    "You could embarrass yourself in an empty room.",
+    "Your idea of damage control is making things worse."
+  ],
+
+  humiliate: [
+    "Your confidence is doing overtime to compensate for your personality.",
+    "You have the social skills of a disconnected printer.",
+    "Your comeback arrived three business days late.",
+    "You bring nothing to the table except a bigger table of problems.",
+    "Your ego is enormous for someone who gets ignored by autocorrect.",
+    "Even your shadow walks a few steps behind out of embarrassment."
   ]
 };
 
@@ -391,6 +418,10 @@ function pickRandom(array) {
 }
 
 function getRoast(mode) {
+  if (mode === "nuclear") {
+    return pickRandom(Object.values(ROASTS).flat());
+  }
+
   if (mode === "random") {
     const safeRoasts = Object.entries(ROASTS)
       .filter(([category]) => category !== "adult")
@@ -458,6 +489,22 @@ const roastCommands = [
     .setName("roastoptout")
     .setDescription("Toggle whether others can target you with /roast."),
 
+    new SlashCommandBuilder()
+    .setName("exroast")
+    .setDescription("Roast someone's terrible ex or love life."),
+
+  new SlashCommandBuilder()
+    .setName("drunkroast")
+    .setDescription("Get a drunk and unhinged roast."),
+
+  new SlashCommandBuilder()
+    .setName("humiliateroast")
+    .setDescription("Get a savage personal humiliation roast."),
+
+  new SlashCommandBuilder()
+    .setName("nuclearroast")
+    .setDescription("Unleash a random roast from every category."),
+
   new SlashCommandBuilder()
     .setName("roasthelp")
     .setDescription("Show the PPG Roast Bot commands and modes.")
@@ -513,17 +560,18 @@ client.on(Events.InteractionCreate, async (interaction) => {
     });
   }
 
-    if (
-    ![
-      "roast",
-      "roastme",
-      "darkroast",
-      "adultroast",
-      "roastoptout",
-      "roasthelp"
-    ].includes(commandName)
-  ) {
-    return;
+    if (![
+  "roast",
+  "roastme",
+  "darkroast",
+  "adultroast",
+  "exroast",
+  "drunkroast",
+  "humiliateroast",
+  "nuclearroast",
+  "roastoptout",
+  "roasthelp"
+].includes(commandName)) return;
     }
 
   if (commandName === "roasthelp") {
@@ -534,13 +582,18 @@ client.on(Events.InteractionCreate, async (interaction) => {
           .setColor(getEmbedColor())
           .setTitle("🔥 PPG Roast Bot Commands")
           .setDescription(
-            "`/roast` — roast yourself or a friend; choose a style.\n" +
-            "`/roastme` — volunteer to be roasted.\n" +
-            "`/darkroast` — get a dark-humour roast.\n" +
-            "`/roastoptout` — toggle whether others can target you.\n\n" +
-            "**Modes:** Friendly, Savage, Dark Humour, Gaming, Absurd, Random.\n" +
-            "**Cooldown:** 15 seconds per user.\n" +
-            "Keep it playful. Don't use roasts to target someone who isn't enjoying the joke."
+          "`/roast` — roast yourself or a friend; choose a style.\n" +
+          "`/roastme` — volunteer to be roasted.\n" +
+          "`/darkroast` — get a dark-humour roast.\n" +
+          "`/adultroast` — 18+ adult humour.\n" +
+          "`/exroast` — toxic ex and relationship roasts.\n" +
+          "`/drunkroast` — drunk and unhinged humour.\n" +
+          "`/humiliateroast` — personal humiliation roasts.\n" +
+          "`/nuclearroast` — random roasts from every category.\n" +
+          "`/roastoptout` — toggle whether others can target you.\n\n" +
+          "**Modes:** Friendly, Savage, Dark Humour, Gaming, Absurd, Adult, Toxic Ex, Drunk, Humiliation, Nuclear Random.\n" +
+          "**Cooldown:** 15 seconds per user.\n" +
+          "Keep it playful. Don't target anyone who isn't enjoying the joke."
           )
       ]
     });
@@ -577,12 +630,20 @@ client.on(Events.InteractionCreate, async (interaction) => {
   let mode = "random";
 
   if (commandName === "roast") {
-    mode = interaction.options.getString("mode") || "random";
-    target = interaction.options.getUser("member") || user;
-  } else if (commandName === "darkroast") {
+  mode = interaction.options.getString("mode") || "random";
+  target = interaction.options.getUser("member") || user;
+} else if (commandName === "darkroast") {
   mode = "dark";
 } else if (commandName === "adultroast") {
   mode = "adult";
+} else if (commandName === "exroast") {
+  mode = "ex";
+} else if (commandName === "drunkroast") {
+  mode = "drunk";
+} else if (commandName === "humiliateroast") {
+  mode = "humiliate";
+} else if (commandName === "nuclearroast") {
+  mode = "nuclear";
   }
   if (target.bot) {
     return interaction.reply({
@@ -601,12 +662,17 @@ client.on(Events.InteractionCreate, async (interaction) => {
   const roast = getRoast(mode);
 
   const label =
-    mode === "dark" ? "💀 DARK HUMOUR ROAST" :
-    mode === "savage" ? "🔥 SAVAGE ROAST" :
-    mode === "gaming" ? "🎮 GAMING ROAST" :
-    mode === "absurd" ? "🤡 ABSURD ROAST" :
-    mode === "friendly" ? "😂 FRIENDLY ROAST" :
-    "🎲 RANDOM ROAST";
+  mode === "adult" ? "🔞 18+ ADULT ROAST" :
+  mode === "dark" ? "💀 DARK HUMOUR ROAST" :
+  mode === "savage" ? "🔥 SAVAGE ROAST" :
+  mode === "gaming" ? "🎮 GAMING ROAST" :
+  mode === "absurd" ? "🤡 ABSURD ROAST" :
+  mode === "friendly" ? "😂 FRIENDLY ROAST" :
+  mode === "ex" ? "💔 TOXIC EX ROAST" :
+  mode === "drunk" ? "🍺 DRUNK & UNHINGED ROAST" :
+  mode === "humiliate" ? "🤡 PERSONAL HUMILIATION" :
+  mode === "nuclear" ? "☢️ NUCLEAR RANDOM ROAST" :
+  "🎲 RANDOM ROAST";
 
   const embed = new EmbedBuilder()
     .setColor(getEmbedColor())
