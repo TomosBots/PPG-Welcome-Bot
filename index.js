@@ -36,6 +36,41 @@ function getEmbedColor() {
   return parseInt(color.slice(1), 16);
 }
 
+const adminChannelId = "1496289610668707981";
+
+client.on(Events.GuildMemberRemove, async (member) => {
+  try {
+    const channel = await member.guild.channels.fetch(
+      adminChannelId
+    );
+
+    if (!channel || !channel.isTextBased() ||
+        !channel.isSendable()) {
+      console.error("Admin chat channel not found or not accessible.");
+      return;
+    }
+
+    const embed = new EmbedBuilder()
+      .setColor(0xE74C3C)
+      .setTitle("📤 Member Left PPG")
+      .setDescription(
+        `**Username:** ${member.user.tag}\n` +
+        `**User ID:** \`${member.id}\`\n` +
+        `**Members remaining:** ${member.guild.memberCount}`
+      )
+      .setThumbnail(
+        member.user.displayAvatarURL({ size: 256 })
+      )
+      .setTimestamp();
+
+    await channel.send({ embeds: [embed] });
+
+    console.log(`Leave notification sent for ${member.user.tag}`);
+  } catch (error) {
+    console.error("Failed to send leave notification:", error);
+  }
+});
+
 client.once(Events.ClientReady, (readyClient) => {
   console.log(`PPG Welcome Bot online as ${readyClient.user.tag}`);
   console.log(`Watching welcome channel: ${welcomeChannelId}`);
