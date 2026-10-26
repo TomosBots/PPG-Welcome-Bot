@@ -292,7 +292,97 @@ const ROASTS = {
     "Your ex didn't leave you. They escaped a long-term subscription.",
     "You're about as seductive as a parking fine.",
     "Your romantic aura screams 'terms and conditions apply'.",
-    "If bad decisions were foreplay, you'd be irresistible."
+    "If bad decisions were foreplay, you'd be irresistible.",
+    "Your guardian angel has blocked you on every platform.",
+    "Your family tree needs a forensic investigation.",
+    "You're the reason the gene pool has a lifeguard.",
+    "Your birth was the plot twist nobody wanted.",
+    "Even your skeleton is embarrassed to be associated with you.",
+    "Your life insurance company sees your name and starts sweating.",
+    "Your ancestors survived centuries of hardship just for you to become the final boss of disappointment.",
+    "Your family doesn't have skeletons in the closet. They've got a whole cemetery.",
+    "You're the human equivalent of a warning label nobody bothered to read.",
+    "Your therapist probably needs a therapist after hearing your stories.",
+    "Your sex life is so dry the Sahara just offered you moisturiser.",
+    "Your bedroom skills are the reason people fake phone calls.",
+    "Your flirting is so bad it qualifies as a public safety hazard.",
+    "Your idea of a happy ending is finally finding the toilet in the dark.",
+    "You're so bad at foreplay that even the warm-up music left.",
+    "Your sex appeal is like a software licence: expired and full of restrictions.",
+    "Your bed has seen more disappointment than a divorce court.",
+    "You're the reason Netflix and chill became Netflix and leave.",
+    "Your stamina is measured in loading screens.",
+    "You're so bad at dirty talk that the room filed a noise complaint.",
+    "You're not the black sheep of the family. You're the reason they sold the farm.",
+    "If your personality were a crime scene, the police would call it accidental.",
+    "You're proof that common sense sometimes takes a lunch break.",
+    "Even your bad decisions have started making decisions without you.",
+    "Your existence is the universe's longest-running inside joke.",
+    "If disappointment could reproduce, you'd be its entire family tree.",
+    "Your brain has two settings: confidently incorrect and accidentally worse.",
+    "You're what happens when common sense takes permanent annual leave.",
+    "You have the charisma of a restraining order.",
+    "Even your reflection looks away when you walk past a mirror.",
+    "Your sex life is so inactive even your mattress has moved on.",
+    "Your flirting has a higher rejection rate than a scam email.",
+    "You experience post-nut clarity before anything even happens.",
+    "Your bedroom has more awkward silence than a family Christmas after a scandal.",
+    "Your love life is so tragic that Cupid has switched careers.",
+    "You're so desperate for attention that even your red flags wave themselves.",
+    "Your ex didn't break your heart; they completed a software uninstallation.",
+    "You're the reason people put their phones on Do Not Disturb before a date.",
+    "Your idea of romance is splitting the bill and asking for a lift home.",
+    "You're so unlucky in love that even a dating bot would mark you as spam.",
+          "Your dating profile needs a disclaimer and a risk assessment.",
+    "You're the reason people check whether a hotel has a cancellation policy.",
+    "Your sex appeal is still buffering on dial-up internet.",
+    "Your love life has more red flags than a haunted circus.",
+    "Your flirting could make a stripper reconsider their career.",
+    "Your bedroom has the atmosphere of a tax audit.",
+    "You're so bad at romance that even a candle refuses to set the mood.",
+    "Your idea of seduction is saying 'u up?' at 3:47 in the morning.",
+    "Your love life is sponsored by disappointment and poor decisions.",
+    "You're the human equivalent of waking up next to a regret.",
+    "Your romantic skills belong in a museum beside extinct species.",
+    "Your pickup lines should come with a public apology.",
+    "Your love life is so cursed that Cupid wears protective equipment around you.",
+    "You're about as irresistible as a parking ticket under the windscreen wiper.",
+    "Your flirting has the same effect as a fire alarm during a romantic dinner.",
+    "Your bedroom confidence is inversely proportional to your actual abilities.",
+    "You're the reason people invent fake partners to avoid conversations.",
+    "Your idea of foreplay is arguing about whose turn it is to buy toilet roll.",
+    "Your dating history looks like a crime documentary with no happy ending.",
+    "Even your pillow needs emotional support after listening to you.",
+    "You're so toxic that your ex deserves compensation for emotional overtime.",
+    "Your personality is a bigger turn-off than a fridge full of expired milk.",
+    "You bring the same energy to romance as a solicitor reading a parking fine.",
+    "Your love life is like a haunted house: plenty of screaming and nobody returns.",
+    "You're living proof that lust can temporarily disable critical thinking.",
+    "Your flirting is so painful that second-hand embarrassment needs painkillers.",
+    "You have the romantic energy of a damp sock in a cold shower.",
+    "Your ex didn't ghost you; they escaped the haunting.",
+    "Your bedroom playlist is just awkward silence with a remix.",
+    "You're the reason 'friends with benefits' started requiring a background check.",
+    "Your love life has more endings than a badly written soap opera.",
+    "Your romantic future is looking like a terms-and-conditions page nobody accepts.",
+    "Your sex appeal is on life support, and the doctor has stopped visiting.",
+    "You're the kind of person who could turn a romantic getaway into a missing-person investigation.",
+    "Your pillow talks more sense than you do.",
+    "Your flirting technique is why some people choose celibacy.",
+    "You're so unlucky in love that even your dating app wants to uninstall itself.",
+    "Your idea of chemistry is mixing two drinks and regretting both.",
+    "You're a walking reminder that attraction and good judgement aren't the same thing.",
+    "Your love life is so empty that even tumbleweeds have stopped passing through.",
+    "Your romantic reputation arrives in the room before you do, and everyone leaves.",
+    "You have the seductive charm of a wet floor sign.",
+    "Your bedroom deserves a one-star review for emotional damage.",
+    "You're so bad at relationships that even your imaginary wedding has been cancelled.",
+    "Your flirting makes people remember they have laundry to do.",
+    "Your love life is a dumpster fire, and somehow you're still throwing petrol on it.",
+    "You're the reason the phrase 'lower your standards' needs a warning label.",
+    "Your romantic game is so weak that Cupid has filed for early retirement.",
+    "You're not a heartbreaker; you're a mood killer with Wi-Fi.",
+    "Your dating history needs a narrator saying, 'In hindsight, this was a terrible idea.'"
   ]
 };
 
@@ -302,7 +392,11 @@ function pickRandom(array) {
 
 function getRoast(mode) {
   if (mode === "random") {
-    return pickRandom(Object.values(ROASTS).flat());
+    const safeRoasts = Object.entries(ROASTS)
+      .filter(([category]) => category !== "adult")
+      .flatMap(([, roasts]) => roasts);
+
+    return pickRandom(safeRoasts);
   }
 
   return pickRandom(ROASTS[mode] || ROASTS.friendly);
@@ -338,6 +432,7 @@ const roastCommands = [
           { name: "Dark humour 💀", value: "dark" },
           { name: "Gaming 🎮", value: "gaming" },
           { name: "Absurd 🤡", value: "absurd" },
+          { name: "18+ Adult 🔞", value: "adult" },
           { name: "Random 🎲", value: "random" }
         )
     )
@@ -354,6 +449,10 @@ const roastCommands = [
   new SlashCommandBuilder()
     .setName("darkroast")
     .setDescription("Get a dark-humour roast."),
+
+  new SlashCommandBuilder()
+  .setName("adultroast")
+  .setDescription("Get an 18+ adult-humour roast."),
 
   new SlashCommandBuilder()
     .setName("roastoptout")
@@ -414,17 +513,18 @@ client.on(Events.InteractionCreate, async (interaction) => {
     });
   }
 
-  if (
+    if (
     ![
       "roast",
       "roastme",
       "darkroast",
+      "adultroast",
       "roastoptout",
       "roasthelp"
     ].includes(commandName)
   ) {
     return;
-  }
+    }
 
   if (commandName === "roasthelp") {
     return interaction.reply({
@@ -480,9 +580,10 @@ client.on(Events.InteractionCreate, async (interaction) => {
     mode = interaction.options.getString("mode") || "random";
     target = interaction.options.getUser("member") || user;
   } else if (commandName === "darkroast") {
-    mode = "dark";
+  mode = "dark";
+} else if (commandName === "adultroast") {
+  mode = "adult";
   }
-
   if (target.bot) {
     return interaction.reply({
       content: "😂 Let the humans take the roasting. Pick a real member!",
