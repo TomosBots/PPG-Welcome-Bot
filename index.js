@@ -68,11 +68,19 @@ client.on(Events.GuildMemberAdd, async (member) => {
         name: `Welcome to ${serverName}!`,
         iconURL: member.guild.iconURL() || undefined
       })
-      .setTitle(`Welcome, ${member.user.username}!`)
+      .setTitle(`Welcome, ${member.user.username}!`,  
       .setDescription(
-        `Hey ${member}, welcome to **${serverName}**! 🎉\n\n` +
-        `${welcomeMessage}`
-      )
+      `🦋 **WELCOME TO ${serverName}!** 🥂\n\n` +
+      `Your home for private parties, sticker trades & good vibes! 💖\n\n` +
+      `📜 <#1496243868717420664> ・Server Rules\n` +
+   b  `❤️ <#1496243796793491617> ・Meet The Team\n` +
+      `🎉 <#1496244191880151151> ・Party Guide\n` +
+      `🥂 <#1496329052728983743> ・Party Schedule\n\n` +
+      `🤖 **NEW PPG SIGNUP BOT!** 💖\n` +
+      `Select your event in the signup channel, complete the form with your IGN & game tag, and follow the bot's instructions! 🥳\n\n` +
+      `💕 Good vibes only — we're happy you're here! 🦋`
+)
+
       .setThumbnail(
         member.user.displayAvatarURL({ size: 256 })
       )
