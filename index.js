@@ -748,7 +748,6 @@ client.on(Events.GuildMemberAdd, async (member) => {
       })
       .setTitle(`Welcome, ${member.user.username}!`)
       .setDescription(
-        `🦋 Welcome ${member}! 💖\n\n` +
         `Welcome to **${serverName}**! 🥂\n\n` +
         `Your home for private parties, sticker trades & good vibes! 💖\n\n` +
         `📜 <#1496243868717420664> ・Server Rules\n` +
@@ -779,21 +778,26 @@ client.on(Events.GuildMemberAdd, async (member) => {
 
       embed.setImage("attachment://ppg-welcome.png");
 
-      await channel.send({
-        embeds: [embed],
-        files: [banner],
-        allowedMentions: { users: [member.id] }
-      });
+      
+await channel.send({
+  content: `🦋 Welcome <@${member.id}>! 💖`,
+  embeds: [embed],
+  files: [banner],
+  allowedMentions: { users: [member.id] }
+});
+
     } else {
       console.warn(
         "ppg-welcome.png not found; sending welcome embed without banner."
       );
 
-      await channel.send({
-        embeds: [embed],
-        allowedMentions: { users: [member.id] }
-      });
-    }
+      
+await channel.send({
+  content: `🦋 Welcome <@${member.id}>! 💖`,
+  embeds: [embed],
+  allowedMentions: { users: [member.id] }
+});
+
 
     try {
       await member.send({
