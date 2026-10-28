@@ -797,7 +797,7 @@ await channel.send({
   embeds: [embed],
   allowedMentions: { users: [member.id] }
 });
-
+    }
 
     try {
       await member.send({
